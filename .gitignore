@@ -13,3 +13,6 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# MySQL folder mounted as volume in docker-compose
+.dbdata

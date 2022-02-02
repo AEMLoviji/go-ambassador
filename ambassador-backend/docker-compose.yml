@@ -6,6 +6,8 @@ services:
     container_name: ambassador-backend
     ports:
       - 8000:8000
+    # we will take opportunity of Live Reloading. 
+    # See Docker file to now about the library used for that purpose
     volumes:
       - .:/app
     depends_on:

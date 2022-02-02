@@ -1,26 +1,27 @@
 version: '3.9'
 services:
-
   backend:
     build: .
-    container_name: ambassador-backend    
-    image: img-ambassador-backend
+    image: img-ambassador-backend    
+    container_name: ambassador-backend
     ports:
-      -  8000:8000
+      - 8000:8000
     volumes:
       - .:/app
     depends_on:
-      - db  
-
+      - db
   db:
-    image: mysql:5.7.22
+    image: mysql:5.7    
+    container_name: ambassador-mysql
     restart: always
     environment:
-      - MYSQL_DATABASE=ambassador
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
       - MYSQL_ROOT_PASSWORD=root
-    volumes:
-      - .dbdata:/var/lib/mysql
+      - MYSQL_DATABASE=ambassador
+      - MYSQL_USER=ambassador
+      - MYSQL_PASSWORD=ambassador
     ports:
-        - 33066:3306
+      - 3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data: {}

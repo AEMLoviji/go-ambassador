@@ -25,7 +25,6 @@ func IsAuthenticated(c *fiber.Ctx) error {
 }
 
 func GetUserId(c *fiber.Ctx) (uint, error) {
-
 	cookie := c.Cookies("jwt")
 
 	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
@@ -38,7 +37,7 @@ func GetUserId(c *fiber.Ctx) (uint, error) {
 
 	payload := token.Claims.(*jwt.StandardClaims)
 
-	id, _ := strconv.Atoi(payload.Id)
+	id, _ := strconv.Atoi(payload.Subject)
 
 	return uint(id), nil
 }

@@ -3,6 +3,7 @@ module ambassador
 go 1.17
 
 require (
+	github.com/bxcodec/faker/v3 v3.7.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gofiber/fiber/v2 v2.25.0
 	golang.org/x/crypto v0.0.0-20220131195533-30dcbda58838

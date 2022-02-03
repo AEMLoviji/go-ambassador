@@ -19,10 +19,14 @@ COPY . .
 ## air command automatically will run main.go file and compile app if anything in file system changes
 #CMD [ "air" ]
 
-
-# PROD: Uncomment below lines to build and run application as an executable
-RUN go build -o /ambassador-backend
-
+## DEV: Without compiling and without AIR Libe reloading mentioned above
 EXPOSE 8000
 
-CMD [ "/ambassador-backend" ]
+CMD [ "go", "run", "main.go" ]
+
+## PROD: Uncomment below lines to build and run application as an executable
+#RUN go build -o /ambassador-backend
+#
+#EXPOSE 8000
+#
+#CMD [ "/ambassador-backend" ]

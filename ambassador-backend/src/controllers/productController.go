@@ -5,6 +5,7 @@ import (
 	"ambassador/src/models"
 	"context"
 	"encoding/json"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -116,8 +117,8 @@ func ProductsBackend(c *fiber.Ctx) error {
 	}
 
 	var searchedProducts []models.Product
-	if s := c.Query("s"); s != "" {
-		lower := strings.ToLower(s)
+	if searchParam := c.Query("s"); searchParam != "" {
+		lower := strings.ToLower(searchParam)
 		for _, product := range products {
 			if strings.Contains(strings.ToLower(product.Title), lower) || strings.Contains(strings.ToLower(product.Description), lower) {
 				searchedProducts = append(searchedProducts, product)
@@ -125,6 +126,19 @@ func ProductsBackend(c *fiber.Ctx) error {
 		}
 	} else {
 		searchedProducts = products
+	}
+
+	if sortParam := c.Query("sort"); sortParam != "" {
+		sortLower := strings.ToLower(sortParam)
+		if sortLower == "asc" {
+			sort.Slice(searchedProducts, func(i, j int) bool {
+				return searchedProducts[i].Price < searchedProducts[j].Price
+			})
+		} else if sortLower == "desc" {
+			sort.Slice(searchedProducts, func(i, j int) bool {
+				return searchedProducts[i].Price > searchedProducts[j].Price
+			})
+		}
 	}
 
 	return c.JSON(searchedProducts)

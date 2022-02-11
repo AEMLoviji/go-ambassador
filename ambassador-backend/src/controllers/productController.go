@@ -30,6 +30,8 @@ func CreateProducts(c *fiber.Ctx) error {
 
 	database.DB.Create(&product)
 
+	clearCache()
+
 	return c.JSON(product)
 }
 
@@ -56,6 +58,8 @@ func UpdateProduct(c *fiber.Ctx) error {
 
 	database.DB.Model(&product).Updates(&product)
 
+	clearCache()
+
 	return c.JSON(product)
 }
 
@@ -66,6 +70,8 @@ func DeleteProduct(c *fiber.Ctx) error {
 	product.Id = uint(id)
 
 	database.DB.Delete(&product)
+
+	clearCache()
 
 	return c.JSON(product)
 }
@@ -161,4 +167,8 @@ func ProductsBackend(c *fiber.Ctx) error {
 		"page":      page,
 		"last_page": total/perPage + 1,
 	})
+}
+
+func clearCache() {
+	go database.ClearCache("products_backend", "products_frontend")
 }
